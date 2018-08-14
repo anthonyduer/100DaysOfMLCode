@@ -51,7 +51,7 @@ While complex looking, the equation can be easily broken down into 1 or 2 lines 
 ```R
 # In R:
 yhat = x * slope + intercept
-rsq = sum((yhat - mean(x))^2)/sum((x - mean(x))^2)
+rsq = sum((yhat - mean(y))^2)/sum((y - mean(y))^2)
 ```
 And it's as simple as that! The resulting number will be bounded betwen [0, 1] with 0 denoting no gain in accuracy (our model has no good explanation for our data) and a 1 denoting perfect accuracy (our model is always, exactly right). The next, natural, and most common question then follows: how high an R-squared value is 'good enough'? While, as always, we want our model to be as accurate as possible, we cannot always hope for perfection (R-squared=1.00). Typically, models begin to perform pretty well with R-squared values above 0.3-0.4 and become better as more data is added.
 
@@ -76,14 +76,19 @@ slope = r * (sd(y) / sd(X))
 
 Simple Linear Regression is only really helpful if X and y are linearly related quantitative __DEFINE "quantitative"__ variables - again, not just related. We can see that if there is no correlation between X and y then r ~0, slope ~0, and the prediction of y can only be assumed to be mean(y). This is why we check for one of the major assumptions of the linear regression model: linearity.
 
-__INSERT Definition of linearity__
+As with every model, Linear Regression makes some assumptions about the structure of the random variables, their relationship with each other, and how they interact. While, in practice, some of these rules can be violated and still produce a usable model, others are much harder to break and still produce an accurate model. That said, it is possible to 'fix' the data in order to fit within the confines of Linear Regression.
+
+__Assumption #1: Linearity__
+
+The first assumption that a linear regression model makes is that the relationship between your dependent and independent variables must be linear. Linearity is defined as a line having an equation in the form of y=m&ast;x+b - which is precisely what the result of linear regression modeling gives us. If the relationship doesn't have this underlying relationship, then linear regression modeling will start to fail to some degree. For example, if we attempt to model the function y=x^2, our linear regression will return a flat (constant) estimator with an RSQ equal to zero. However, things become trickier when the relationsihp is 'sort of linear'. If we extend our previous example to y=x^3, then our linear regression will still return a preditor (and could even be confident that it's correct!) even though the underlying data doesn't conform to the linearity assumption.
+
+However, the relative flexibility of Linear Regression allows us to work around some of these issues. If we believe that the relationship between the independent variable and the dependent variable is quadratic, then we can transform our input data by squaring it ourselves before feeding into our model. Suddenly, the data takes on a linear relationship as we've 'backed out' the squaring term by including it in our preprocessing! Likewise, for cubic relationships, we can actually transform either side of the equation and predict the cubed-root of y (and then cube our prediction to balance things) or cube our input variable x. Again, the flexibility of Linear Regression shines through - though it makes some assumptions, we can generally fit our data to those assumptions via a little thought and some (not so hard) work. 
 
 __INSERT Definition Independence of errors & define the error__
 
 __INSERT Definition Homoskedasticity__
 
 __INSERT Definition Normality of errors & define the error__
-
 
 Regression models are used for description, causal inference, or prediction y based on the relationship between X and y [(4)](https://www.stat.berkeley.edu/~aldous/157/Papers/shmueli.pdf). Each of these uses depends on the model selection process. __INSERT Defintions for Modeling__
 
